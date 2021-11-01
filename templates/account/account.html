@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block body %}
+    <h1>Account</h1>
+    {% if form.non_field_errors %}
+        <p style="background-color: lightcoral;color: darkred;font-weight: bold;padding: 1em; margin: 1em 0;">{{ form.non_field_errors }}</p>
+    {% endif %}
+    {% if success %}
+        <p style="background-color: lightgreen;color: darkgreen;font-weight: bold;padding: 1em; margin: 1em 0;">Account updated.</p>
+    {% endif %}
+    <hr>
+    <h2>Information</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            {{ form.first_name.label_tag }} {% if form.first_name.field.required %} * {% endif %}
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </p>
+        <p>
+            {{ form.last_name.label_tag }} {% if form.last_name.field.required %} * {% endif %}
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </p>
+        <p>
+            {{ form.email.label_tag }} {% if form.email.field.required %} * {% endif %}
+            {{ form.email }}
+            {{ form.email.errors }}
+        </p>
+        <p>
+            {{ form.username.label_tag }} {% if form.username.field.required %} * {% endif %}
+            {{ form.username }}
+            {{ form.username.errors }}
+        </p>
+        <input type="submit" name="Save" value="Save">
+        <input type="button" name="Cancel" value="Cancel" onclick="window.location.href='{% url 'home' %}';">
+    </form>
+
+    <hr>
+    <h2>Security</h2>
+    <input type="button" name="Change Password" value="Change Password" onclick="window.location.href='{% url 'password_change' %}';">
+{% endblock %}

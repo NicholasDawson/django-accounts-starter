@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <h1>Login</h1>
+    {% if user.is_authenticated %}
+        <p>You are already logged in as <b>{{ user.get_username }}</b> | <a href="{% url 'logout' %}">Logout</a></p>
+    {% endif %}
+    {% if form.errors %}
+        <p style="background-color: lightcoral;color: darkred;font-weight: bold;padding: 1em; margin: 1em 0;">Username and password is invalid. Try again.</p>
+    {% endif %}
+    <hr>
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <p>
+            {{ form.username.label_tag }} {% if form.username.field.required %} * {% endif %}
+            {{ form.username }}
+        </p>
+
+        <p>
+            {{ form.password.label_tag }} {% if form.password.field.required %} * {% endif %}
+            {{ form.password }}
+            <button type="button" onclick="togglePassword(this);">Show</button>
+        </p>
+
+        <input type="submit" name="Login" value="Login">
+    </form>
+
+    <hr>
+
+    <p>Don't have an account? <a href="{% url 'register' %}">Register now</a></p>
+    <p>Forgot your password? <a href="{% url 'password_reset' %}">Reset it</a></p>
+{% endblock %}
+
+{% block script %}
+    <script>
+    // Password Show/Hide
+    const password_field = document.getElementById('{{ form.password.auto_id }}');
+    function togglePassword(btn) {
+        if (password_field.type == 'password') {
+            password_field.type = 'text';
+            btn.innerHTML = 'Hide';
+        }
+        else {
+            password_field.type = 'password';
+            btn.innerHTML = 'Show';
+        }
+    }
+    </script>
+{% endblock %}

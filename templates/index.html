@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <h1>Home</h1>
+    <hr>
+    {% if user.is_authenticated %}
+        <h2>Logged in as:</h2>
+        <p><b>Username:</b> {{ user.get_username }}</p>
+        <p><b>Full Name:</b> {{ user.get_full_name }}</p>
+        <p><b>Email:</b> {{ user.email }}</p>
+        <p><b>Session Started:</b> {{ user.last_login }}</p>
+    {% else %}
+        <h2>You are not logged in.</h2>
+    {% endif %}
+{% endblock %}

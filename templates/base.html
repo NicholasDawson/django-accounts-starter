@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        nav {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav > ol {
+            padding-left: 0;
+        }
+
+        nav > ol > li {
+            display: inline-block;
+            padding-right: 1rem;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<nav>
+    <ol>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        {% if user.is_authenticated %}
+            {# Show logout and account if authenticated (logged in) #}
+            <li><a href="{% url 'account' %}">Account</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            {# Show login and register if not authenticated #}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
+        {% endif %}
+    </ol>
+</nav>
+<body>
+{% block body %}{% endblock %}
+</body>
+
+{% block script %}{% endblock %}
+
+</html>

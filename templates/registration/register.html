@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+    {% if user.is_authenticated %}
+        <p>You are already logged in as <b>{{ user.get_username }}</b> | <a href="{% url 'logout' %}">Logout</a></p>
+    {% endif %}
+    {% if form.non_field_errors %}
+        <p style="background-color: lightcoral;color: darkred;font-weight: bold;padding: 1em; margin: 1em 0;">{{ form.non_field_errors }}</p>
+    {% endif %}
+    <hr>
+    <form method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
+        <p>
+            {{ form.first_name.label_tag }} {% if form.first_name.field.required %} * {% endif %}
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </p>
+        <p>
+            {{ form.last_name.label_tag }} {% if form.last_name.field.required %} * {% endif %}
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </p>
+        <p>
+            {{ form.email.label_tag }} {% if form.email.field.required %} * {% endif %}
+            {{ form.email }}
+            {{ form.email.errors }}
+        </p>
+        <p>
+            {{ form.username.label_tag }} {% if form.username.field.required %} * {% endif %}
+            {{ form.username }}
+            {{ form.username.errors }}
+        </p>
+        <p>
+            {{ form.password.label_tag }} {% if form.password.field.required %} * {% endif %}
+            {{ form.password }}
+            {{ form.password.errors }}
+            <button type="button" onclick="togglePassword(this);">Show</button>
+        </p>
+        <input type="submit" name="Login" value="Login">
+    </form>
+
+    <hr>
+
+    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+{% endblock %}
+
+{% block script %}
+    <script>
+    // Password Show/Hide
+    const password_field = document.getElementById('{{ form.password.auto_id }}');
+    function togglePassword(btn) {
+        if (password_field.type == 'password') {
+            password_field.type = 'text';
+            btn.innerHTML = 'Hide';
+        }
+        else {
+            password_field.type = 'password';
+            btn.innerHTML = 'Show';
+        }
+    }
+    </script>
+{% endblock %}
